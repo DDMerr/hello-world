@@ -1,6 +1,7 @@
 import pandas
 import numpy as np
 import matplotlib.pyplot as plt
+from pypinyin import lazy_pinyin
 from pylab import *  # 支持中文
 # 解决中文显示问题
 plt.rcParams['font.sans-serif'] = ['SimHei']
@@ -10,8 +11,10 @@ index = 0
 plt.figure(figsize=(12, 6))
 data_of_three_year = []
 #
+print(11)
 #
-template = pandas.read_excel('00022333.xlsx')
+template = pandas.read_excel(r'D:\pyworkspace\python_spider\python_spider\2021-11-29接单\00022333.xlsx')
+print(22)
 year2021 = []
 year_groupby_2021 = {}
 aera_groupby_2021 = {}
@@ -69,7 +72,8 @@ for key in seq:
     x.append(int(key))
     y.append(avg_price_groupby_year[key])
     data_of_three_year.append(avg_price_groupby_year[key])
-plt.plot(x, y, marker=markers[index], mec='r', mfc='w', label=u'广州总房价')
+plt.plot(x, y, marker=markers[index], mec='r', mfc='w', label=''.join(lazy_pinyin('广州')))
+#
 index+=1
 for key,values in aera_groupby_2020.items():
     avg_price_groupby_aera_month = {}
@@ -77,11 +81,12 @@ for key,values in aera_groupby_2020.items():
         month = value['成交时间'].split('.')[1]
         if avg_price_groupby_aera_month.get(month) == None:
             avg_price_groupby_aera_month[month] = []
+        #
         avg_price_groupby_aera_month[month].append(value['单价'])
     y = []
     for i,j in avg_price_groupby_aera_month.items():
         y.append(np.mean(j))
-    plt.plot(x, y, marker=markers[index], mec='r', mfc='w', label=key)
+    plt.plot(x, y, marker=markers[index], mec='r', mfc='w', label=''.join(lazy_pinyin(key)))
     index += 1
 
 plt.legend(bbox_to_anchor=(1.0, 0.7)) # 让每条线有对应的名称生效
@@ -115,7 +120,7 @@ for key in seq:
     y.append(avg_price_groupby_year[key])
     data_of_three_year.append(avg_price_groupby_year[key])
 
-plt.plot(x, y, marker=markers[index], mec='r', mfc='w', label=u'广州总房价')
+plt.plot(x, y, marker=markers[index], mec='r', mfc='w', label=''.join(lazy_pinyin('广州')))
 index+=1
 for key,values in aera_groupby_2019.items():
     avg_price_groupby_aera_month = {}
@@ -129,7 +134,7 @@ for key,values in aera_groupby_2019.items():
         y.append(np.mean(j))
     if len(y) !=12:
         continue
-    plt.plot(x, y, marker=markers[index], mec='r', mfc='w', label=key)
+    plt.plot(x, y, marker=markers[index], mec='r', mfc='w', label=''.join(lazy_pinyin(key)))
     index += 1
 
 plt.legend(bbox_to_anchor=(1.0, 0.7)) # 让每条线有对应的名称生效
@@ -162,7 +167,7 @@ for key in seq:
     x.append(int(key))
     y.append(avg_price_groupby_year[key])
     data_of_three_year.append(avg_price_groupby_year[key])
-plt.plot(x, y, marker=markers[index], mec='r', mfc='w', label=u'广州总房价')
+plt.plot(x, y, marker=markers[index], mec='r', mfc='w', label=''.join(lazy_pinyin('广州')))
 index+=1
 for key,values in aera_groupby_2021.items():
     avg_price_groupby_aera_month = {}
@@ -176,7 +181,7 @@ for key,values in aera_groupby_2021.items():
         y.append(np.mean(j))
     if len(y) !=7:
         continue
-    plt.plot(x, y, marker=markers[index], mec='r', mfc='w', label=key)
+    plt.plot(x, y, marker=markers[index], mec='r', mfc='w', label=''.join(lazy_pinyin(key)))
     index += 1
 
 plt.legend(bbox_to_anchor=(1.0, 0.7)) # 让每条线有对应的名称生效
@@ -197,5 +202,5 @@ plt.plot(x, data_of_three_year[12:24], marker=markers[1], mec='r', mfc='w', labe
 plt.plot(x, data_of_three_year[24:]+[0,0,0,0,0,], marker=markers[2], mec='r', mfc='w', label=2021)
 plt.legend(bbox_to_anchor=(1.0, 0.7)) # 让每条线有对应的名称生效
 plt.xticks(x)
-plt.title("综合")  # 标题
+plt.title('Price change of GuangZhou during three years')  # 标题
 plt.savefig('综合.png')
